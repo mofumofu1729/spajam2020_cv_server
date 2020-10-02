@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 # coding: utf-8
-from flask import Flask
+from io import BytesIO
+from flask import Flask, request
+from PIL import Image, ImageOps
 
 app = Flask(__name__)
 
-
-@app.route('/')
+@app.route('/', methods=['POST'])
 def hello():
-    return 'hello world\n'
+    img = Image.open(BytesIO(request.data))
+    return 'image size: ({}, {})\n'.format(img.size[0], img.size[1])
 
 
 if __name__ == "__main__":
